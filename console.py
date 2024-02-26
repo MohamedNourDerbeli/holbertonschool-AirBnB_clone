@@ -1,8 +1,8 @@
+#!/usr/bin/python3
 """Console module
 
 This module contains the HBNBCommand class which extends cmd.Cmd to create a simple command-line interface.
 """
-#!/usr/bin/python3
 import cmd
 
 
