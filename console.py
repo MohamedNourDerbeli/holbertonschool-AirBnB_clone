@@ -11,7 +11,7 @@ class HBNBCommand(cmd.Cmd):
     HBNBCommand class extends cmd.Cmd to create a simple command-line interface.
     """
 
-    prompt = "(hbnb)"  # Sets the prompt for the command line interface
+    prompt = "(hbnb) "  # Sets the prompt for the command line interface
 
     def emptyline(self):
         """
