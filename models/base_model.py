@@ -2,7 +2,8 @@
 """
 BaseModel module
 
-This module defines the BaseModel class, which serves as the base class for other classes.
+This module defines the BaseModel class,
+which serves as the base class for other classes.
 """
 from uuid import uuid4
 from datetime import datetime
@@ -11,7 +12,8 @@ from models import storage
 
 class BaseModel:
     """
-    BaseModel class represents the base model for other classes.
+    BaseModel class represents the base model
+    for other classes.
     """
 
     now = datetime.now()
@@ -44,11 +46,12 @@ class BaseModel:
         Returns:
             str: String representation.
         """
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """
-        Updates the updated_at attribute to the current datetime and saves the instance.
+        Updates the updated_at attribute to the
+        current datetime and saves the instance.
         """
         self.updated_at = datetime.now()
         storage.save()
