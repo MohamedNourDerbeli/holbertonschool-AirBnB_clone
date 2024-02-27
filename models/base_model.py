@@ -16,7 +16,7 @@ class BaseModel:
     for other classes.
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
         Initializes a new instance of the BaseModel class.
 
@@ -24,18 +24,18 @@ class BaseModel:
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        # if kwargs:
-        #     date_format = "%Y-%m-%dT%H:%M:%S.%f"
-        #     for key, value in kwargs.items():
-        #         if key not in ["__class__", "created_at", "updated_at"]:
-        #             setattr(self, key, value)
-        #         if key in {"created_at", "updated_at"}:
-        #             setattr(self, key, datetime.strptime(value, date_format))
-        # else:
-        self.id = str(uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
-        storage.new(self)
+        if kwargs:
+            date_format = "%Y-%m-%dT%H:%M:%S.%f"
+            for key, value in kwargs.items():
+                if key not in ["__class__", "created_at", "updated_at"]:
+                    setattr(self, key, value)
+                if key in {"created_at", "updated_at"}:
+                    setattr(self, key, datetime.strptime(value, date_format))
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+            storage.new(self)
 
     def __str__(self):
         """
