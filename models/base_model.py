@@ -44,15 +44,14 @@ class BaseModel:
         Returns:
             str: String representation.
         """
-        name = self.__class__.__name__
-        return "[{}] ({}) {}".format(name, self.id, self.__dict__)
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """
         Updates the updated_at attribute to the
         current datetime and saves the instance.
         """
-        self.updated_at = datetime.utcnow()
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
