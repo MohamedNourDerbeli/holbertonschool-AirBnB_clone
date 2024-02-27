@@ -10,7 +10,7 @@ from datetime import datetime
 from models import storage
 
 
-class BaseModel:
+class BaseModel():
     """
     BaseModel class represents the base model
     for other classes.
