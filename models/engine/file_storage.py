@@ -52,12 +52,10 @@ class FileStorage:
         """
         from models.base_model import BaseModel
 
-        try:
+        if isfile(self.__file_path):
             with open(self.__file_path, "r") as file:
                 load_objects = json.load(file)
                 for key, value in load_objects.items():
                     class_name, class_id = key.split(".")
                     obj_class = eval(class_name)
                     self.__objects[key] = obj_class(**value)
-        except FileNotFoundError:
-            pass
