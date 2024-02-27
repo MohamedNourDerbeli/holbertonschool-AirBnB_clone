@@ -10,14 +10,11 @@ from datetime import datetime
 from models import storage
 
 
-class BaseModel():
+class BaseModel:
     """
     BaseModel class represents the base model
     for other classes.
     """
-
-    now = datetime.now()
-    date_format = "%Y-%m-%dT%H:%M:%S.%f"
 
     def __init__(self, *args, **kwargs):
         """
@@ -28,16 +25,17 @@ class BaseModel():
             **kwargs: Arbitrary keyword arguments.
         """
         if kwargs:
+            date_format = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
                 if key not in ["__class__", "created_at", "updated_at"]:
                     setattr(self, key, value)
                 if key in {"created_at", "updated_at"}:
-                    setattr(self, key, datetime.strptime(value, self.date_format))
+                    setattr(self, key, datetime.strptime(value, date_format))
         else:
             self.id = str(uuid4())
-            self.created_at = self.now
-            self.updated_at = self.now
-            storage.new(self)
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+        storage.new(self)
 
     def __str__(self):
         """
