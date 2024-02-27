@@ -46,7 +46,8 @@ class BaseModel:
         Returns:
             str: String representation.
         """
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
+        return "[{}] ({}) {}".format(
+            type(self).__name__, self.id, self.__dict__)
 
     def save(self):
         """
