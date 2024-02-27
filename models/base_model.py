@@ -5,7 +5,7 @@ BaseModel module
 This module defines the BaseModel class,
 which serves as the base class for other classes.
 """
-from uuid import uuid4
+import uuid
 from datetime import datetime
 from models import storage
 
@@ -32,7 +32,7 @@ class BaseModel:
                 if key in {"created_at", "updated_at"}:
                     setattr(self, key, datetime.strptime(value, date_format))
         else:
-            self.id = str(uuid4())
+            self.id = str(uuid.uuid4())
             self.created_at = datetime.utcnow()
             self.updated_at = datetime.utcnow()
             storage.new(self)
