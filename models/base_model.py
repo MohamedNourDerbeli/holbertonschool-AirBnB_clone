@@ -6,8 +6,8 @@ This module defines the BaseModel class,
 which serves as the base class for other classes.
 """
 from uuid import uuid4
-import datetime
-import models
+from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -30,12 +30,12 @@ class BaseModel:
                 if key not in ["__class__", "created_at", "updated_at"]:
                     setattr(self, key, value)
                 if key in {"created_at", "updated_at"}:
-                    setattr(self, key, datetime.datetime.strptime(value, date_format))
+                    setattr(self, key, datetime.strptime(value, date_format))
         else:
             self.id = str(uuid4())
-            self.created_at = datetime.datetime.utcnow()
-            self.updated_at = datetime.datetime.utcnow()
-            models.storage.new(self)
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+            storage.new(self)
 
     def __str__(self):
         """
@@ -51,8 +51,8 @@ class BaseModel:
         Updates the updated_at attribute to the
         current datetime and saves the instance.
         """
-        self.updated_at = datetime.datetime.now()
-        models.storage.save()
+        self.updated_at = datetime.utcnow()
+        storage.save()
 
     def to_dict(self):
         """
