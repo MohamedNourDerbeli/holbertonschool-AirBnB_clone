@@ -44,8 +44,9 @@ class BaseModel:
         Returns:
             str: String representation.
         """
-        return ("[{}] ({}) {}".format(self.__class__.__name__,
-                                      self.id, self.__dict__))
+        name = self.__class__.__name__
+        return "[{}] ({}) {}".format(name, self.id, self.__dict__)
+
     def save(self):
         """
         Updates the updated_at attribute to the
