@@ -33,8 +33,8 @@ class BaseModel:
                     setattr(self, key, datetime.strptime(value, date_format))
         else:
             self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
         storage.new(self)
 
     def __str__(self):
@@ -51,7 +51,7 @@ class BaseModel:
         Updates the updated_at attribute to the
         current datetime and saves the instance.
         """
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.utcnow()
         storage.save()
 
     def to_dict(self):
