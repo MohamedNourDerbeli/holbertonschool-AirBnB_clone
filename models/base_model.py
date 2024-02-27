@@ -24,9 +24,6 @@ class BaseModel:
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        self.id = str(uuid4())
-        self.created_at = datetime.utcnow()
-        self.updated_at = datetime.utcnow()
         if kwargs:
             date_format = "%Y-%m-%dT%H:%M:%S.%f"
             for key, value in kwargs.items():
@@ -34,7 +31,11 @@ class BaseModel:
                     setattr(self, key, value)
                 if key in {"created_at", "updated_at"}:
                     setattr(self, key, datetime.strptime(value, date_format))
-        storage.new(self)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = datetime.utcnow()
+            storage.new(self)
 
     def __str__(self):
         """
