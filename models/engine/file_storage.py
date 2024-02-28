@@ -2,7 +2,8 @@
 """
 File Storage module
 
-This module defines the FileStorage class, which handles serialization and deserialization of objects to and from JSON files.
+This module defines the FileStorage class, which handles
+serialization and deserialization of objects to and from JSON files.
 """
 
 import json
@@ -11,7 +12,8 @@ from os.path import isfile
 
 class FileStorage:
     """
-    FileStorage class manages serialization and deserialization of objects to and from JSON files.
+    FileStorage class manages serialization and
+    deserialization of objects to and from JSON files.
     """
 
     __file_path = "file.json"
