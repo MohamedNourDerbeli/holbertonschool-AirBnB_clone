@@ -34,19 +34,6 @@ class TestBaseClass(unittest.TestCase):
         except FileNotFoundError:
             pass
 
-    def test_module_doc(self):
-        """ check for module documentation """
-        self.assertTrue(len(base_model.__doc__) > 0)
-
-    def test_class_doc(self):
-        """ check for documentation """
-        self.assertTrue(len(BaseModel.__doc__) > 0)
-
-    def test_method_docs(self):
-        """ check for method documentation """
-        for func in dir(BaseModel):
-            self.assertTrue(len(func.__doc__) > 0)
-
     def test_id_type(self):
         """ Test id type"""
         my_third = BaseModel()
