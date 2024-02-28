@@ -101,7 +101,29 @@ or all objects of a particular class.
             obj = storage.all()
             print([str(obj[key]) for key in obj])
 
-    # def do_update(self, line):
+    def do_update(self, line):
+        """Usage: update <class name> <id> <attribute name> \
+"<attribute value>"
+        """
+        split_line = line.split()
+        if not line:
+            print("** class name missing **")
+        elif split_line[0] not in globals():
+            print("** class doesn't exist **")
+        elif len(split_line) < 2:
+            print("** instance id missing **")
+        elif len(split_line) < 3:
+            print("** attribute name missing **")
+        elif len(split_line) < 4:
+            print("** value missing **")
+        else:
+            key = f"{split_line[0]}.{split_line[1]}"
+            obj = storage.all()
+            if key in obj:
+                obj[key].__dict__[split_line[2]] = split_line[3]
+                storage.save()
+            else:
+                print("** no instance found **")
 
 
 if __name__ == "__main__":
