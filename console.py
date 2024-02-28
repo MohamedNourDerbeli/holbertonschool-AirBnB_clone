@@ -5,6 +5,7 @@ This module contains the HBNBCommand class which extends cmd.Cmd to create a sim
 """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
