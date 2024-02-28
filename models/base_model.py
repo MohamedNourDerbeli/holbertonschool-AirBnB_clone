@@ -15,9 +15,7 @@ class BaseModel:
     BaseModel class represents the base model
     for other classes.
     """
-
-    __test = 0
-
+    __test=0
     def __init__(self, *args, **kwargs):
         """
         Initializes a new instance of the BaseModel class.
@@ -28,12 +26,11 @@ class BaseModel:
         """
         if kwargs:
             date_format = "%Y-%m-%dT%H:%M:%S.%f"
-            arg = kwargs.copy()
-            del arg["__class__"]
-            for key in arg:
+            for key, value in kwargs.items():
+                if key not in ["__class__", "created_at", "updated_at"]:
+                    setattr(self, key, value)
                 if key in {"created_at", "updated_at"}:
-                    arg[key] = datetime.strptime(arg[key], date_format)
-            self.__dict__ = arg
+                    setattr(self, key, datetime.strptime(value, date_format))
         else:
             self.id = str(uuid4())
             self.created_at = datetime.utcnow()
