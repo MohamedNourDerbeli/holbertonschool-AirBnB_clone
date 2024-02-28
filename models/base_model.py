@@ -37,15 +37,6 @@ class BaseModel:
             self.updated_at = datetime.utcnow()
             storage.new(self)
 
-    def __str__(self):
-        """
-        Returns a string representation of the BaseModel instance.
-
-        Returns:
-            str: String representation.
-        """
-        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
-
     def save(self):
         """
         Updates the updated_at attribute to the
@@ -66,3 +57,12 @@ class BaseModel:
         dic["created_at"] = self.created_at.isoformat()
         dic["updated_at"] = self.updated_at.isoformat()
         return dic
+
+    def __str__(self):
+        """
+        Returns a string representation of the BaseModel instance.
+
+        Returns:
+            str: String representation.
+        """
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
