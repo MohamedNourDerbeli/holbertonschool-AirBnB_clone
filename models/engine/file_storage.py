@@ -50,6 +50,7 @@ class FileStorage:
         """
         Deserializes JSON file to __objects.
         """
+        from models.user import User
         from models.base_model import BaseModel
 
         if isfile(self.__file_path):
