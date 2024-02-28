@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """Module representing the User class."""
 from models.base_model import BaseModel
-from models import storage
-
 
 class User(BaseModel):
     """Represents a user in the system."""
