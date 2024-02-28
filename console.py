@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """Console module
 
-This module contains the HBNBCommand class which extends cmd.Cmd to create a simple command-line interface.
+This module contains the HBNBCommand class which extends
+cmd.Cmd to create a simple command-line interface.
 """
 import cmd
 from models.base_model import BaseModel
@@ -16,14 +17,16 @@ from models import storage
 
 class HBNBCommand(cmd.Cmd):
     """
-    HBNBCommand class extends cmd.Cmd to create a simple command-line interface.
+    HBNBCommand class extends cmd.Cmd to create a
+    simple command-line interface.
     """
 
     prompt = "(hbnb) "  # Sets the prompt for the command line interface
 
     def emptyline(self):
         """
-        Overrides emptyline method from cmd.Cmd to do nothing when an empty line is entered.
+        Overrides emptyline method from cmd.Cmd to do
+        nothing when an empty line is entered.
         """
         pass
 
