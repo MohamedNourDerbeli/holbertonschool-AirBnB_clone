@@ -15,7 +15,7 @@ class BaseModel:
     BaseModel class represents the base model
     for other classes.
     """
-    __test=0
+
     def __init__(self, *args, **kwargs):
         """
         Initializes a new instance of the BaseModel class.
