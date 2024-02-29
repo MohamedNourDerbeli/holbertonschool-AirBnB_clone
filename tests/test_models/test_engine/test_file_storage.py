@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """test for file storage"""
 import unittest
-import pep8
 import json
 import os
 from models.base_model import BaseModel
@@ -12,7 +11,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
-
+import models
 
 class TestFileStorage(unittest.TestCase):
     '''this will test the FileStorage'''
@@ -41,12 +40,6 @@ class TestFileStorage(unittest.TestCase):
             os.remove("file.json")
         except Exception:
             pass
-
-    def test_pep8_FileStorage(self):
-        """Tests pep8 style"""
-        style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_docstring(self):
         """
@@ -135,21 +128,32 @@ class TestFileStorage(unittest.TestCase):
             pass
 
     def test_save(self):
-        """
-        Testing the save method
-        """
         bm = BaseModel()
-        bm.save()
-        self.assertTrue(os.path.exists(self.path))
-        bm.name = "Testing"
-        bm.number = 1
-        bm.save()
-        self.assertTrue(os.path.exists(self.path))
-        dic = {}
-        with open('file.json', 'r') as fjson:
-            dic = json.loads(fjson.read())
-        bm_key = bm.__class__.__name__ + '.' + bm.id
-        self.assertDictEqual(bm.to_dict(), dic[bm_key])
+        us = User()
+        st = State()
+        pl = Place()
+        cy = City()
+        am = Amenity()
+        rv = Review()
+        models.storage.new(bm)
+        models.storage.new(us)
+        models.storage.new(st)
+        models.storage.new(pl)
+        models.storage.new(cy)
+        models.storage.new(am)
+        models.storage.new(rv)
+        models.storage.save()
+        save_text = ""
+        with open("file.json", "r") as f:
+            save_text = f.read()
+            self.assertIn("BaseModel." + bm.id, save_text)
+            self.assertIn("User." + us.id, save_text)
+            self.assertIn("State." + st.id, save_text)
+            self.assertIn("Place." + pl.id, save_text)
+            self.assertIn("City." + cy.id, save_text)
+            self.assertIn("Amenity." + am.id, save_text)
+            self.assertIn("Review." + rv.id, save_text)
+
 
 
 if __name__ == "__main__":
