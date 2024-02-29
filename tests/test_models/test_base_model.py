@@ -10,6 +10,7 @@ from models import base_model
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import os
+import json
 
 
 class TestBaseClass(unittest.TestCase):
@@ -102,6 +103,18 @@ class TestBaseClass(unittest.TestCase):
         my_new_model.save()
         actual = my_new_model.updated_at
         self.assertTrue(actual > previous)
+    def test_save_storage(self):
+        """Tests that storage.save() is called from save()."""
+        b = BaseModel()
+        b.save()
+        key = "{}.{}".format(type(b).__name__, b.id)
+        d = {key: b.to_dict()}
+        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
+        with open(FileStorage._FileStorage__file_path,
+                  "r", encoding="utf-8") as f:
+            self.assertEqual(len(f.read()), len(json.dumps(d)))
+            f.seek(0)
+            self.assertEqual(json.load(f), d)
 
 
 if __name__ == '__main__':
