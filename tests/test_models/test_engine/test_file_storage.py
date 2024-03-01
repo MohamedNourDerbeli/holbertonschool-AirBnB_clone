@@ -21,7 +21,7 @@ class TestFileStorageClass(unittest.TestCase):
     def setUp(self):
         """condition to test file saving"""
         with open("test.json", "w"):
-            FileStorage.__file_path = "test.json"
+            FileStorage.__file_path = "file.json"
             FileStorage.__objects = {}
 
     def tearDown(self):
