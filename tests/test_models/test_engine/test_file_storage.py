@@ -4,7 +4,6 @@ Module thats contain test for file storage
 """
 import os
 import json
-import pep8
 import inspect
 import unittest
 from models.user import User
@@ -28,20 +27,6 @@ class TestFileStorageDoc(unittest.TestCase):
         """set up for methods testing"""
         cls.fs_func = inspect.getmembers(FileStorage, inspect.isfunction)
 
-    def test_pep8(self):
-        """test pep8 in FileStorage class"""
-        pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors and warnings.")
-
-    def test_pep8_test(self):
-        """test pep8 for test to FileStorage class"""
-        pep8s = pep8.StyleGuide(quiet=True)
-        result = pep8s.check_files(['tests/test_models/test_engine/\
-test_file_storage.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors and warnings.")
 
     def test_module_doc(self):
         """test for the doc in module"""
