@@ -115,7 +115,7 @@ class TestFileStorageClass(unittest.TestCase):
         """
         Test if __objects exist and was created
         """
-        dic = self.storage.all()
+        dic = storage.all()
         try:
             self.assertEqual(FileStorage._FileStorage__objects, dic)
             self.assertTrue(FileStorage._FileStorage__objects)
