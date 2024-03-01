@@ -21,12 +21,12 @@ class TestFileStorageClass(unittest.TestCase):
     def setUp(self):
         """condition to test file saving"""
         with open("test.json", "w"):
-            FileStorage._FileStorage__file_path = "test.json"
-            FileStorage._FileStorage__objects = {}
+            FileStorage.__file_path = "test.json"
+            FileStorage.__objects = {}
 
     def tearDown(self):
         """destroys created file"""
-        FileStorage._FileStorage__file_path = "file.json"
+        FileStorage.__file_path = "file.json"
         try:
             os.remove("test.json")
         except FileNotFoundError:
