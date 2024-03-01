@@ -12,6 +12,7 @@ from models import base_model
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import os
+import pip8
 
 
 class TestBaseClass(unittest.TestCase):
