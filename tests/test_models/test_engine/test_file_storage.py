@@ -1,21 +1,18 @@
 #!/usr/bin/python3
-"""Unit test for the base class base model
+"""Unit test for the file storage class
 """
 import unittest
-
-# import json
-from datetime import datetime
-
-# from io import StringIO
-# from unittest.mock import patch
-from models import base_model
-from models.base_model import BaseModel
+import pep8
+from models.engine import file_storage
 from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
 import os
+from models import storage
 
 
-class TestBaseClass(unittest.TestCase):
-    """TestBaseClass Test the base class
+class TestFileStorageClass(unittest.TestCase):
+    """TestFileStorage test of suits for the engine
+    testing save, all, reload and new methods
     Args:
         unittest (): Propertys for unit testing
     """
@@ -23,13 +20,13 @@ class TestBaseClass(unittest.TestCase):
     maxDiff = None
 
     def setUp(self):
-        """condition to test file saving"""
-        with open("test.json", "w"):
+        """ condition to test file saving """
+        with open("test.json", 'w'):
             FileStorage._FileStorage__file_path = "test.json"
             FileStorage._FileStorage__objects = {}
 
     def tearDown(self):
-        """destroys created file"""
+        """ destroys created file """
         FileStorage._FileStorage__file_path = "file.json"
         try:
             os.remove("test.json")
@@ -37,73 +34,73 @@ class TestBaseClass(unittest.TestCase):
             pass
 
     def test_module_doc(self):
-        """check for module documentation"""
-        self.assertTrue(len(base_model.__doc__) > 0)
+        """ check for module documentation """
+        self.assertTrue(len(file_storage.__doc__) > 0)
 
     def test_class_doc(self):
-        """check for documentation"""
-        self.assertTrue(len(BaseModel.__doc__) > 0)
+        """ check for documentation """
+        self.assertTrue(len(FileStorage.__doc__) > 0)
 
     def test_method_docs(self):
-        """check for method documentation"""
-        for func in dir(BaseModel):
+        """ check for method documentation """
+        for func in dir(FileStorage):
             self.assertTrue(len(func.__doc__) > 0)
 
-    # test_id_type
+    def test_pep8(self):
+        """ test base and test_base for pep8 conformance """
+        style = pep8.StyleGuide(quiet=True)
+        file1 = 'models/engine/file_storage.py'
+        file2 = 'tests/test_models/test_engine/test_file_storage.py'
+        result = style.check_files([file1, file2])
+        self.assertEqual(result.total_errors, 0,
+                         "Found code style errors (and warning).")
+
+    def test_all(self):
+        """ Test method all from filestorage """
+        my_obj = FileStorage()
+        my_dict = my_obj.all()
+        self.assertTrue(type(my_dict) is dict)
+
+    def test_new(self):
+        """ Tests method new for filestorage """
+        my_obj = FileStorage()
+        new_obj = BaseModel()
+        my_obj.new(new_obj)
+        my_dict = my_obj.all()
+        key = "{}.{}".format(type(new_obj).__name__, new_obj.id)
+        self.assertTrue(key in my_dict)
+
+    def test_empty_reload(self):
+        """ Empty reload function """
+        my_obj = FileStorage()
+        new_obj = BaseModel()
+        my_obj.new(new_obj)
+        my_obj.save()
+        my_dict1 = my_obj.all()
+        os.remove("test.json")
+        my_obj.reload()
+        my_dict2 = my_obj.all()
+        self.assertTrue(my_dict2 == my_dict1)
+
+    def test_save(self):
+        """ Tests the save method for filestorage """
+        my_obj = FileStorage()
+        new_obj = BaseModel()
+        my_obj.new(new_obj)
+        my_dict1 = my_obj.all()
+        my_obj.save()
+        my_obj.reload()
+        my_dict2 = my_obj.all()
+        for key in my_dict1:
+            key1 = key
+        for key in my_dict2:
+            key2 = key
+        self.assertEqual(my_dict1[key1].to_dict(), my_dict2[key2].to_dict())
+
+    def test_instance(self):
+        """ Check storage """
+        self.assertIsInstance(storage, FileStorage)
 
 
-def test_id_type(self):
-    """Test id type"""
-    my_third = BaseModel()
-    self.assertIsInstance(my_third.id, str)
-
-
-# test_datetime_type
-def test_datetime_type(self):
-    """Test datetime type"""
-    my_third = BaseModel()
-    self.assertIsInstance(my_third.created_at, datetime)
-
-
-# test_to_dict
-def test_to_dict(self):
-    """testing to dict function"""
-    test = BaseModel()
-    my_model = test.to_dict()
-    self.assertIsInstance(my_model["created_at"], str)
-    self.assertIsInstance(my_model["updated_at"], str)
-    self.assertIsInstance(test.created_at, datetime)
-    self.assertIsInstance(test.updated_at, datetime)
-    self.assertEqual(my_model["created_at"], test.created_at.isoformat())
-    self.assertEqual(my_model["updated_at"], test.updated_at.isoformat())
-
-
-# test_base_from_dict
-def test_base_from_dict(self):
-    """Testing task 4, with kwargs init"""
-    my_model = BaseModel()
-    my_model_json = my_model.to_dict()
-    my_new_model = BaseModel(**my_model_json)
-    self.assertEqual(my_model_json, my_new_model.to_dict())
-    self.assertIsInstance(my_new_model.id, str)
-    self.assertIsInstance(my_new_model.created_at, datetime)
-    self.assertIsInstance(my_new_model.updated_at, datetime)
-
-
-# test_base_from_emp_dict
-def test_base_from_emp_dict(self):
-    """test with an empty dictionary"""
-    my_dict = {}
-    my_new_model = BaseModel(**my_dict)
-    self.assertIsInstance(my_new_model.id, str)
-    self.assertIsInstance(my_new_model.created_at, datetime)
-    self.assertIsInstance(my_new_model.updated_at, datetime)
-
-
-# test_base_from_non_dict
-def test_base_from_non_dict(self):
-    """test with a None dictionary"""
-    my_new_model = BaseModel(None)
-    self.assertIsInstance(my_new_model.id, str)
-    self.assertIsInstance(my_new_model.created_at, datetime)
-    self.assertIsInstance(my_new_model.updated_at, datetime)
+if __name__ == '__main__':
+    unittest.main()
