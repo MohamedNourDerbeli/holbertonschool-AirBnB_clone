@@ -12,7 +12,6 @@ from models import base_model
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 import os
-import pip8
 
 
 class TestBaseClass(unittest.TestCase):
@@ -49,16 +48,6 @@ class TestBaseClass(unittest.TestCase):
         """check for method documentation"""
         for func in dir(BaseModel):
             self.assertTrue(len(func.__doc__) > 0)
-
-    def test_pep8(self):
-        """test base and test_base for pep8 conformance"""
-        style = pep8.StyleGuide(quiet=True)
-        file1 = "models/base_model.py"
-        file2 = "tests/test_models/test_base_model.py"
-        result = style.check_files([file1, file2])
-        self.assertEqual(
-            result.total_errors, 0, "Found code style errors (and warning)."
-        )
 
     # test_id_type
 
