@@ -78,7 +78,6 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save(self):
         """Test to save object in file.json"""
-        os.remove("file.json")
         strg = FileStorage()
         new_dict = {}
         for key, value in classes.items():
