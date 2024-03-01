@@ -12,13 +12,13 @@ from models.user import User
 
 
 class Testplace(unittest.TestCase):
-
     def test_pep8_conformance_place(self):
         """Test that we conform to PEP8."""
         pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(['models/place.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
+        result = pep8style.check_files(["models/place.py"])
+        self.assertEqual(
+            result.total_errors, 0, "Found code style errors (and warnings)."
+        )
 
     def test_class(self):
         place1 = Place()
@@ -38,8 +38,8 @@ class Testplace(unittest.TestCase):
         my_place = Place()
         my_place.city_id = my_city.id
         my_place.user_id = my_user.id
-        my_place.name = 'Coworking'
-        my_place.description = 'description'
+        my_place.name = "Coworking"
+        my_place.description = "description"
         my_place.number_rooms = 4
         my_place.number_bathrooms = 2
         my_place.max_guest = 4
@@ -49,8 +49,8 @@ class Testplace(unittest.TestCase):
         my_place.amenity_ids = str(my_amenity.id)
         self.assertEqual(my_place.city_id, my_city.id)
         self.assertEqual(my_place.user_id, my_user.id)
-        self.assertEqual(my_place.name, 'Coworking')
-        self.assertEqual(my_place.description, 'description')
+        self.assertEqual(my_place.name, "Coworking")
+        self.assertEqual(my_place.description, "description")
         self.assertEqual(my_place.number_rooms, 4)
         self.assertTrue(type(my_place.number_rooms), int)
         self.assertEqual(my_place.number_bathrooms, 2)
