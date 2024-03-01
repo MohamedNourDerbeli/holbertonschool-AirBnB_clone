@@ -107,7 +107,7 @@ class TestFileStorageClass(unittest.TestCase):
         """
         dic = storage.all()
         try:
-            self.assertEqual(FileStorage.__objects, dic)
+            self.assertEqual(FileStorage.all(), dic)
             self.assertTrue(FileStorage.__objects)
         except AttributeError:
             pass
