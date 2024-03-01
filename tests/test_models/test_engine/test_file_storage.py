@@ -97,7 +97,7 @@ class TestFileStorageClass(unittest.TestCase):
         Test to see if the file_self.path exist
         """
         try:
-            self.assertEqual(FileStorage.__file_path, self.path)
+            self.assertEqual(FileStorage.__file_path, "file.json")
         except AttributeError:
             pass
 
