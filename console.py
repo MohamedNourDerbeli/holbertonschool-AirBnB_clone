@@ -110,35 +110,40 @@ or all objects of a particular class.
         Override the onecmd method to handle commands
         in the format specific fromat
         """
-        sp = re.split('\\.|\\(|\\,|"| |\)', line)
-        while "" in sp:
-            sp.remove("")
-        if line.endswith(".all()"):
-            class_name = line.split(".")[0]
-            self.do_all(class_name)
-        elif line.endswith(".count()"):
-            class_name = line.split(".")[0]
-            if class_name not in globals().keys() and len(line) != 0:
-                print("** class doesn't exist **")
-            else:
-                obj = storage.all()
-                count = 0
-                for key in obj:
-                    if class_name in key:
-                        count += 1
-                print(count)
-        if len(sp) >= 2:
-            if sp[1] == "show":
-                class_name_id = f"{sp[0]} {sp[2].strip(')')}"
-                self.do_show(class_name_id)
-        if len(sp) >= 2:
-            if sp[1] == "destroy":
-                class_name_id = f"{sp[0]} {sp[2].strip(')')}"
-                self.do_destroy(class_name_id)
-        if len(sp) >= 2:
-            if sp[1] == "update":
-                class_name_id = f"{sp[0]} {sp[2]} {sp[3]} {sp[4]}"
-                self.do_update(class_name_id)
+        sp = r'^(\w+)\.(all|count|show|destroy|update)\((.*)\)$'
+        # Use re.match to find the components
+        match = re.match(sp, line)
+        if match:
+            class_name = match.group(1)
+            method_name = match.group(2)
+            args = match.group(3).split(", ")
+            args = [arg.strip("'\"") for arg in args]
+
+            if method_name == "all":
+                self.do_all(class_name)
+            elif method_name == "count":
+                if class_name not in globals().keys() and len(line) != 0:
+                    print("** class doesn't exist **")
+                else:
+                    obj = storage.all()
+                    count = sum(1 for key in obj if class_name in key)
+                    print(count)
+            elif method_name == "show":
+                if len(args) != 1:
+                    print("Invalid number of arguments for 'show' command.")
+                else:
+                    self.do_show(f"{class_name} {args[0]}")
+            elif method_name == "destroy":
+                if len(args) != 1:
+                    print("Invalid number of arguments for 'destroy' command.")
+                else:
+                    self.do_destroy(f"{class_name} {args[0]}")
+            elif method_name == "update":
+                if len(args) != 3:
+                    print("Invalid number of arguments for 'update' command.")
+                else:
+                    self.do_update(f"{class_name} \
+{args[0]} {args[1]} {args[2]}")
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
