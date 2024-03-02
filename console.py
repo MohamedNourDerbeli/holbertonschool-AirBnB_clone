@@ -13,6 +13,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -106,8 +107,10 @@ or all objects of a particular class.
 
     def onecmd(self, line):
         """
-        Override the onecmd method to handle commands in the format specific fromat
+        Override the onecmd method to handle commands
+        in the format specific fromat
         """
+        split_line = re.split("\\.|\\(", line)
         if line.endswith(".all()"):
             class_name = line.split(".")[0]
             self.do_all(class_name)
@@ -122,7 +125,10 @@ or all objects of a particular class.
                     if class_name in key:
                         count += 1
                 print(count)
-
+        if len(split_line) >= 2:
+            if split_line[1] == "show":
+                class_name_id = f"{split_line[0]} {split_line[2].strip(')')}"
+                self.do_show(class_name_id)
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
