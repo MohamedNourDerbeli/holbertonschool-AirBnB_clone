@@ -5,6 +5,7 @@ This module contains the HBNBCommand class which extends
 cmd.Cmd to create a simple command-line interface.
 """
 import cmd
+import json
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -119,6 +120,7 @@ or all objects of a particular class.
             args = match.group(3).split(", ")
             args = [arg.strip("'\"") for arg in args]
 
+
             if method_name == "all":
                 self.do_all(class_name)
             elif method_name == "count":
@@ -139,8 +141,12 @@ or all objects of a particular class.
                 else:
                     self.do_destroy(f"{class_name} {args[0]}")
             elif method_name == "update":
-                if len(args) != 3:
+                if len(args) < 3:
                     print("Invalid number of arguments for 'update' command.")
+                elif args[1].startswith("{"):
+                    str_dict= re.split("\{|\}",line)[1]
+                    str_dict= f"\'.{str_dict}/\'".replace('.','{').replace('/','}')
+                    print(str_dict)
                 else:
                     self.do_update(f"{class_name} \
 {args[0]} {args[1]} {args[2]}")
