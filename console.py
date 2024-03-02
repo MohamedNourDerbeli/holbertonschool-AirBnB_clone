@@ -141,19 +141,21 @@ or all objects of a particular class.
                 else:
                     self.do_destroy(f"{class_name} {args[0]}")
             elif method_name == "update":
-                if len(args) < 3:
+                if len(args) < 2:
                     print("Invalid number of arguments for 'update' command.")
                 elif args[1].startswith("{"):
                     str_dict = re.split("\\{|\\}", line)[1].strip()
                     str_dict = f"{{{str_dict}}}".replace("'", '"')
-                    str_dict = json.loads(str_dict)
+                    dict_obj = json.loads(str_dict)
+                    if isinstance(dict_obj, dict):
+                        print("Invalid dictionary format for 'update'")
                     key = f"{class_name}.{args[0]}"
                     obj = storage.all()
-
                     if key in obj:
-                        obj[key].__dict__.update(str_dict)
-                        print("pass")
+                        obj[key].__dict__.update(dict_obj)
                         storage.save()
+                    else:
+                        print("** no instance found **")
 
                 else:
                     self.do_update(
