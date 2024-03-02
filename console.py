@@ -36,12 +36,6 @@ class HBNBCommand(cmd.Cmd):
         """
         return True  # Signals the program to exit
 
-    def help_EOF(self):
-        """
-        Provides help information for the EOF command.
-        """
-        print("Quit command to exit the program\n")
-
     def do_quit(self, line):
         """Usage:  quit
         Exit the application.
@@ -108,7 +102,19 @@ or all objects of a particular class.
             print("** class doesn't exist **")
         else:
             obj = storage.all()
-            print([str(obj[key]) for key in obj])
+            print([str(obj[key]) for key in obj if class_name in key])
+
+    def onecmd(self, line):
+        """
+        Override the onecmd method to handle commands in the format <class name>.all
+        """
+        if line.endswith(".all()"):
+            # Extract the class name and call the do_all method
+            class_name = line[:-4]
+            self.do_all(class_name)
+        else:
+            # Fallback to the default onecmd behavior
+            return cmd.Cmd.onecmd(self, line)
 
     def do_update(self, line):
         """Usage: update <class name> <id> <attribute name> \
