@@ -129,6 +129,11 @@ or all objects of a particular class.
             if split_line[1] == "show":
                 class_name_id = f"{split_line[0]} {split_line[2].strip(')')}"
                 self.do_show(class_name_id)
+        if len(split_line) >= 2:
+            if split_line[1] == "destroy":
+                class_name_id = f"{split_line[0]} {split_line[2].strip(')')}"
+                self.do_destroy(class_name_id)
+
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
