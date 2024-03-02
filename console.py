@@ -115,10 +115,13 @@ or all objects of a particular class.
             class_name = line.split(".")[0]
             if class_name not in globals().keys() and len(line) != 0:
                 print("** class doesn't exist **")
-        else:
-            obj = storage.all()
-            count = 0
-            print([count for key in obj if class_name in key])
+            else:
+                obj = storage.all()
+                count = 0
+                for key in obj:
+                    if class_name in key:
+                        count += 1
+                print(count)
 
         else:
             # Fallback to the default onecmd behavior
