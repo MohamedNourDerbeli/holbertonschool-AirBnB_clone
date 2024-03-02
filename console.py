@@ -106,12 +106,20 @@ or all objects of a particular class.
 
     def onecmd(self, line):
         """
-        Override the onecmd method to handle commands in the format <class name>.all
+        Override the onecmd method to handle commands in the format specific fromat
         """
         if line.endswith(".all()"):
-            # Extract the class name and call the do_all method
-            class_name = line[:-4]
+            class_name = line.split(".")[0]
             self.do_all(class_name)
+        elif line.endswith(".count()"):
+            class_name = line.split(".")[0]
+            if class_name not in globals().keys() and len(line) != 0:
+                print("** class doesn't exist **")
+        else:
+            obj = storage.all()
+            count = 0
+            print([count for key in obj if class_name in key])
+
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
