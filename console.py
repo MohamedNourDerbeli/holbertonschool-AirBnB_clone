@@ -111,7 +111,8 @@ or all objects of a particular class.
         Override the onecmd method to handle commands
         in the format specific fromat
         """
-        sp = r'^(\w+)\.(all|count|show|destroy|update)\((.*)\)$'
+        line = line.lstrip(" ")
+        sp = r"^(\w+)\.(all|count|show|destroy|update)\((.*)\)$"
         # Use re.match to find the components
         match = re.match(sp, line)
         if match:
@@ -119,7 +120,6 @@ or all objects of a particular class.
             method_name = match.group(2)
             args = match.group(3).split(", ")
             args = [arg.strip("'\"") for arg in args]
-
 
             if method_name == "all":
                 self.do_all(class_name)
@@ -144,12 +144,22 @@ or all objects of a particular class.
                 if len(args) < 3:
                     print("Invalid number of arguments for 'update' command.")
                 elif args[1].startswith("{"):
-                    str_dict= re.split("\{|\}",line)[1]
-                    str_dict= f"\'.{str_dict}/\'".replace('.','{').replace('/','}')
-                    print(str_dict)
+                    str_dict = re.split("\\{|\\}", line)[1].strip()
+                    str_dict = f"{{{str_dict}}}".replace("'", '"')
+                    str_dict = json.loads(str_dict)
+                    key = f"{class_name}.{args[0]}"
+                    obj = storage.all()
+
+                    if key in obj:
+                        obj[key].__dict__.update(str_dict)
+                        print("pass")
+                        storage.save()
+
                 else:
-                    self.do_update(f"{class_name} \
-{args[0]} {args[1]} {args[2]}")
+                    self.do_update(
+                        f"{class_name} \
+{args[0]} {args[1]} {args[2]}"
+                    )
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
