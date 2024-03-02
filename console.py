@@ -63,15 +63,15 @@ class HBNBCommand(cmd.Cmd):
         Displays information about an individual object\
 or all objects of a particular class.
         """
-        split_line = line.split()
+        sp = line.split()
         if not line:
             print("** class name missing **")
-        elif split_line[0] not in globals():
+        elif sp[0] not in globals():
             print("** class doesn't exist **")
-        elif len(split_line) < 2:
+        elif len(sp) < 2:
             print("** instance id missing **")
         else:
-            key = f"{split_line[0]}.{split_line[1]}"
+            key = f"{sp[0]}.{sp[1]}"
             obj = storage.all()
             if key in obj:
                 print(obj[key])
@@ -80,15 +80,15 @@ or all objects of a particular class.
 
     def do_destroy(self, line):
         """Destroy an object by its ID."""
-        split_line = line.split()
+        sp = line.split()
         if not line:
             print("** class name missing **")
-        elif split_line[0] not in globals():
+        elif sp[0] not in globals():
             print("** class doesn't exist **")
-        elif len(split_line) < 2:
+        elif len(sp) < 2:
             print("** instance id missing **")
         else:
-            key = f"{split_line[0]}.{split_line[1]}"
+            key = f"{sp[0]}.{sp[1]}"
             obj = storage.all()
             if key in obj:
                 del obj[key]
@@ -110,7 +110,9 @@ or all objects of a particular class.
         Override the onecmd method to handle commands
         in the format specific fromat
         """
-        split_line = re.split("\\.|\\(", line)
+        sp = re.split('\\.|\\(|\\,|"| |\)', line)
+        while "" in sp:
+            sp.remove("")
         if line.endswith(".all()"):
             class_name = line.split(".")[0]
             self.do_all(class_name)
@@ -125,15 +127,18 @@ or all objects of a particular class.
                     if class_name in key:
                         count += 1
                 print(count)
-        if len(split_line) >= 2:
-            if split_line[1] == "show":
-                class_name_id = f"{split_line[0]} {split_line[2].strip(')')}"
+        if len(sp) >= 2:
+            if sp[1] == "show":
+                class_name_id = f"{sp[0]} {sp[2].strip(')')}"
                 self.do_show(class_name_id)
-        if len(split_line) >= 2:
-            if split_line[1] == "destroy":
-                class_name_id = f"{split_line[0]} {split_line[2].strip(')')}"
+        if len(sp) >= 2:
+            if sp[1] == "destroy":
+                class_name_id = f"{sp[0]} {sp[2].strip(')')}"
                 self.do_destroy(class_name_id)
-
+        if len(sp) >= 2:
+            if sp[1] == "update":
+                class_name_id = f"{sp[0]} {sp[2]} {sp[3]} {sp[4]}"
+                self.do_update(class_name_id)
         else:
             # Fallback to the default onecmd behavior
             return cmd.Cmd.onecmd(self, line)
@@ -142,22 +147,22 @@ or all objects of a particular class.
         """Usage: update <class name> <id> <attribute name> \
 "<attribute value>"
         """
-        split_line = line.split()
+        sp = line.split()
         if not line:
             print("** class name missing **")
-        elif split_line[0] not in globals():
+        elif sp[0] not in globals():
             print("** class doesn't exist **")
-        elif len(split_line) < 2:
+        elif len(sp) < 2:
             print("** instance id missing **")
-        elif len(split_line) < 3:
+        elif len(sp) < 3:
             print("** attribute name missing **")
-        elif len(split_line) < 4:
+        elif len(sp) < 4:
             print("** value missing **")
         else:
-            key = f"{split_line[0]}.{split_line[1]}"
+            key = f"{sp[0]}.{sp[1]}"
             obj = storage.all()
             if key in obj:
-                obj[key].__dict__[split_line[2]] = split_line[3]
+                obj[key].__dict__[sp[2]] = sp[3]
                 storage.save()
             else:
                 print("** no instance found **")
