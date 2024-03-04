@@ -1,44 +1,148 @@
-# Airbnb Clone README
+# AirBnB_clone - Console that's in charge of managing the models in a common AirBnB application.
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-## Description
-This project is an Airbnb clone developed as part of the curriculum at Holberton. The aim of this project is to recreate the core functionality of the Airbnb website, allowing users to search for and book accommodations, as well as hosts to list their properties for rent.
+![Console](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/console_airbnb.png)
+"Structure of the project"
 
-## Command Interpreter
-The command interpreter serves as the primary interface for interacting with the Airbnb clone. It allows users to execute various commands to manage properties, bookings, users, and other aspects of the application.
+`Storage engine -> Json file.`
+`Console -> cmd with python library cmd.Cmd`
 
-### How to Start
-To start the command interpreter, follow these steps:
-1. Clone the repository to your local machine.
-2. Navigate to the project directory.
-3. Run the command `./console.py` to start the command interpreter.
+# Description of the project
 
-### How to Use
-Once the command interpreter is running, you can use the following commands:
+This is the first part of the project that simulates an airbnb application in which we are creating a way to control the modules that our web page is going to use by intervening a database in json format. Here we apply object oriented programming, python data translation and command interpreted logic to deliver a local database that can be modified by commands.
 
-- `create`: Create a new instance of a class (e.g., `create User`).
-- `show`: Display information about a specific instance (e.g., `show User 1234`).
-- `update`: Update attributes of an instance (e.g., `update User 1234 name "John Doe"`).
-- `destroy`: Delete a specified instance (e.g., `destroy User 1234`).
-- `all`: Display all instances of a class or all instances overall.
-- `quit` or `EOF`: Exit the command interpreter.
+# Prerequisites
 
-### Examples
-Here are some examples of how to use the command interpreter:
+Python3.4+ has to be installed if you desire to use the console:
+```
+sudo apt-get install python3
+```
 
-- To create a new user: `create User`
-- To display information about a specific user: `show User 1234`
-- To update the name of a user: `update User 1234 name "John Doe"`
-- To delete a user: `destroy User 1234`
-- To display all users: `all User`
+# Installation
 
-## Authors
-- Mohamed Nour (@MohamedNourDerbeli)
+To have access to the console use the following command:
 
-## Branches and Pull Requests
-We utilize branches and pull requests on GitHub to organize our work effectively. Each feature or bug fix is developed on its own branch, and pull requests are used to merge changes into the main branch after review.
+```
+git clone https://github.com/MohamedNourDerbeli/holbertonschool-AirBnB_clone; cd AirBnB_clone
+```
 
-Feel free to contribute by opening pull requests with improvements or fixes! We welcome contributions from the community.
+# Run
 
----
+If you want to execute the console use:
 
-This README follows the structure suggested and was authored by Mohamed Nour (@MohamedNourDerbeli).
+```
+python3 console.py
+```
+or
+```
+./console.py
+```
+
+# Testing
+
+If you want to personalize the classes and execute unit tests to confirm that your changes haven't modify the functionality use:
+
+```
+python3 -m unittest discover tests
+```
+
+# Use
+
+## Available commands
+|Command| Explanation |
+|--|--|
+| create | Creates a new instance of `BaseModel`, saves it (to the JSON file) and prints the `id`. Ex: `$ create BaseModel`  |
+| show | Prints the string representation of an instance based on the class name and `id`. Ex: `$ show BaseModel 1234-1234-1234` |
+| all | Prints all string representation of all instances based or not on the class name. Ex: `$ all BaseModel` |
+| update | Updates an instance based on the class name and `id` by adding or updating attribute (save the change into the JSON file). Ex: `$ update BaseModel 1234-1234-1234 email "aibnb@holbertonschool.com"` |
+
+## Normal command input
+
+|Command| Example|
+|--|--|
+|create| create [class name] |
+|show| show [class name] [id] |
+|all| create [class name] [id]|
+|update| create [class name] [id] [arg_name] [arg_value]|
+
+
+## Alternative command input
+|Command| Example|
+|--|--|
+|[class name].all()| User.all() |
+|[class name].count()| User.count() |
+|[class name].show()| User.show() |
+|[class name].destroy()| User.destroy() |
+|[class name].update([id], [attribute name], [attribute value].all()| User.update("38f22813-2753-4d42-b37c-57a17f1e4f88", "first_name", "John") |
+|(class name).update([id], [dictionary representation])| User.update("38f22813-2753-4d42-b37c-57a17f1e4f88", {'first_name': "John", "age": 89}) |
+
+## Available classes
+|Class name| Attributes|
+|--|--|
+| BaseModel | `id`, `created_at`, `updated_at`  |
+| User| `email`, `password`, `first_name`, `last_name` |
+| State| `name` `state_id`|
+| City| `name`  |
+| Amenity | `name` |
+| Place | `city_id` `user_id` `name` `description` `number_rooms` `number_bathrooms` `max_guest` `price_by_night` `latitude``longitude` `amenity_ids` |
+| Review| `place_id` `user_id` `text` |
+
+* every model inherits attributes from BaseModel
+
+## How to start it
+
+### Interactive Mode
+```
+$ ./console.py
+```
+
+Now you are on interactive mode and you will see the prompt `(hbnb)`
+input a command:
+
+```
+(hbnb) create User
+```
+the id of the created model will be visible in the standard output, if you do:
+
+```
+(hbnb) show User [id]
+```
+
+All the attributes of the created model will be in your screen.
+
+use:
+
+```
+(hbnb) help
+```
+For a list of usable commands, to exit press Ctrl+D or type the command quit.
+
+### Non-Interactive Mode
+
+The console can also be used in non-interactive mode:
+
+```
+$ echo "create User" | ./console.py
+
+$ echo "help" | ./console.py
+```
+
+The program will create a file called: `file.json` whenever you create a new model, it'll be store in the top folder.
+
+## Examples
+
+Executing help command.
+
+![Help](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/help.gif)
+
+Getting help for a command
+
+![Help update](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/help%20update.gif)
+
+Creating a new user, showing the ID and updating the fields
+
+![Create & Update](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/create%20user%20and%20update.gif)
+
+Creating a new basemodel, counting basemodel, delete and count again
+
+![Destroy](https://github.com/daorejuela1/AirBnB_clone/blob/master/images/destroy.gif)
